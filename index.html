@@ -1,0 +1,1202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Happy Birthday Babee!</title>
+
+    <style>
+        /* =========================
+           GLOBAL STYLES
+        ========================== */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            min-height: 100vh;
+            overflow-x: hidden;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(
+                135deg,
+                #722f37 0%,
+                #a92544 100%
+            );
+        }
+
+        /* =========================
+           WELCOME / CONFIRMATION CARDS
+        ========================== */
+
+        .card,
+        .confirm-card {
+            background: rgba(255, 255, 255, 0.92);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+            text-align: center;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+
+            width: 90%;
+            max-width: 450px;
+
+            margin: 80px auto;
+            position: relative;
+            z-index: 10;
+        }
+
+        .card {
+            animation: floatCard 4s ease-in-out infinite;
+        }
+
+        .confirm-card {
+            display: none;
+            border: 2px solid #d63535;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        @keyframes floatCard {
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* =========================
+           BUTTONS
+        ========================== */
+
+        .button-group {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin-top: 20px;
+            position: relative;
+            min-height: 50px;
+        }
+
+        .surprise-btn,
+        .no-btn {
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 25px;
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .surprise-btn {
+            background: linear-gradient(
+                45deg,
+                #f62e46,
+                #a92544
+            );
+
+            box-shadow:
+                0 5px 15px rgba(255, 71, 108, 0.4);
+
+            transition:
+                transform 0.2s ease,
+                box-shadow 0.2s ease;
+        }
+
+        .surprise-btn:hover {
+            transform: scale(1.05);
+            box-shadow:
+                0 7px 20px rgba(255, 71, 71, 0.6);
+        }
+
+        .surprise-btn:active {
+            transform: scale(0.97);
+        }
+
+        .no-btn {
+            background: #95a5a6;
+
+            box-shadow:
+                0 5px 15px rgba(0, 0, 0, 0.1);
+
+            transition:
+                transform 0.12s ease,
+                left 0.12s ease,
+                top 0.12s ease;
+        }
+
+        /* YES button on confirmation screen */
+        #yesBtn {
+            transition: transform 0.2s ease;
+            transform-origin: center;
+        }
+
+        /* =========================
+           GALLERY
+        ========================== */
+
+        .gallery-screen {
+            display: none;
+
+            width: 100%;
+            max-width: 1100px;
+
+            padding: 50px 20px;
+            margin: 0 auto;
+
+            text-align: center;
+
+            position: relative;
+            z-index: 10;
+
+            animation: fadeIn 1.2s ease-in-out;
+        }
+
+        .gallery-title {
+            color: #fc368c;
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+        }
+
+        .gallery-subtitle {
+            font-size: 1.2rem;
+            color: #f37e7e;
+            margin-bottom: 20px;
+        }
+
+        /* =========================
+           PHOTO GRID
+        ========================== */
+
+        .photo-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(auto-fit, minmax(220px, 1fr));
+
+            gap: 25px;
+
+            margin: 40px 0;
+        }
+
+        /* =========================
+           POLAROID CARDS
+        ========================== */
+
+        .photo-card {
+            background: white;
+
+            padding: 15px;
+            padding-bottom: 25px;
+
+            border-radius: 4px;
+
+            box-shadow:
+                0 8px 16px rgba(0, 0, 0, 0.1);
+
+            transition:
+                transform 0.3s ease,
+                box-shadow 0.3s ease;
+
+            position: relative;
+        }
+
+        .photo-card:nth-child(4n + 1) {
+            transform: rotate(-3deg);
+        }
+
+        .photo-card:nth-child(4n + 2) {
+            transform: rotate(2deg);
+        }
+
+        .photo-card:nth-child(4n + 3) {
+            transform: rotate(-1.5deg);
+        }
+
+        .photo-card:nth-child(4n + 4) {
+            transform: rotate(3deg);
+        }
+
+        .photo-card:hover {
+            transform: rotate(0deg) scale(1.08);
+
+            box-shadow:
+                0 15px 30px rgba(255, 71, 123, 0.4);
+
+            z-index: 20;
+
+            border: 1px solid #ff478d;
+        }
+
+        .photo-card img {
+            display: block;
+
+            width: 100%;
+            height: 200px;
+
+            object-fit: cover;
+
+            border: 1px solid #eee;
+        }
+
+        .photo-caption {
+            font-family:
+                'Courier New',
+                Courier,
+                monospace;
+
+            font-weight: bold;
+            font-size: 1rem;
+
+            margin-top: 15px;
+
+            color: #444;
+        }
+
+        /* =========================
+           QUOTE BOXES
+        ========================== */
+
+        .quote-box {
+            background: rgba(255, 255, 255, 0.88);
+
+            padding: 25px;
+
+            border-left: 6px solid #e63d3d;
+
+            border-radius:
+                4px 20px 20px 4px;
+
+            margin: 25px auto;
+
+            font-style: italic;
+            font-size: 1.15rem;
+            line-height: 1.7;
+
+            color: #333;
+
+            text-align: left;
+
+            max-width: 800px;
+
+            box-shadow:
+                0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        /* =========================
+           FLOATING BALLOONS
+        ========================== */
+
+        .balloon-container {
+            position: fixed;
+
+            width: 100%;
+            height: 100%;
+
+            top: 0;
+            left: 0;
+
+            pointer-events: none;
+
+            overflow: hidden;
+
+            z-index: 1;
+        }
+
+        .balloon {
+            position: absolute;
+
+            bottom: -150px;
+
+            width: 60px;
+            height: 75px;
+
+            border-radius:
+                50% 50% 50% 50% /
+                40% 40% 60% 60%;
+
+            animation:
+                floatUp 8s linear infinite;
+        }
+
+        .balloon::before {
+            content: "▲";
+
+            position: absolute;
+
+            bottom: -8px;
+            left: 24px;
+
+            font-size: 10px;
+
+            color: inherit;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform:
+                    translateY(0)
+                    rotate(0deg);
+
+                opacity: 1;
+            }
+
+            100% {
+                transform:
+                    translateY(-120vh)
+                    rotate(20deg);
+
+                opacity: 0;
+            }
+        }
+
+        /* =========================
+           FALLING DECORATIONS
+        ========================== */
+
+        .decorations-container {
+            position: fixed;
+
+            top: 0;
+            left: 0;
+
+            width: 100%;
+            height: 100%;
+
+            pointer-events: none;
+
+            overflow: hidden;
+
+            z-index: 99999;
+        }
+
+        .falling-item {
+            position: absolute;
+
+            top: -50px;
+
+            font-size: 24px;
+
+            user-select: none;
+            pointer-events: none;
+
+            animation:
+                itemFall linear forwards;
+        }
+
+        @keyframes itemFall {
+            0% {
+                transform:
+                    translateY(0)
+                    rotate(0deg);
+
+                opacity: 1;
+            }
+
+            90% {
+                opacity: 1;
+            }
+
+            100% {
+                transform:
+                    translateY(105vh)
+                    rotate(360deg);
+
+                opacity: 0;
+            }
+        }
+
+        /* =========================
+           MOBILE RESPONSIVENESS
+        ========================== */
+
+        @media (max-width: 600px) {
+
+            .card,
+            .confirm-card {
+                padding: 30px 20px;
+                margin: 50px auto;
+            }
+
+            .card h1 {
+                font-size: 1.8rem;
+            }
+
+            .card h2 {
+                font-size: 1.3rem;
+            }
+
+            .gallery-screen {
+                padding: 35px 15px;
+            }
+
+            .gallery-title {
+                font-size: 2rem;
+            }
+
+            .gallery-subtitle {
+                font-size: 1rem;
+            }
+
+            .photo-grid {
+                grid-template-columns:
+                    repeat(auto-fit, minmax(160px, 1fr));
+
+                gap: 20px;
+            }
+
+            .photo-card img {
+                height: 170px;
+            }
+
+            .photo-caption {
+                font-size: 0.9rem;
+            }
+
+            .quote-box {
+                padding: 20px;
+
+                font-size: 1rem;
+                line-height: 1.6;
+            }
+
+            .button-group {
+                flex-wrap: wrap;
+            }
+
+            .surprise-btn,
+            .no-btn {
+                padding: 11px 22px;
+                font-size: 1rem;
+            }
+
+            .balloon {
+                width: 45px;
+                height: 58px;
+            }
+        }
+
+        /* =========================
+           ACCESSIBILITY
+        ========================== */
+
+        button:focus-visible {
+            outline: 3px solid #e24a4a;
+            outline-offset: 3px;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- =========================
+         BACKGROUND MUSIC
+    ========================== -->
+
+    <audio
+        id="bgMusic"
+        loop
+        preload="auto"
+        src="bdaybgmusic.mp3">
+    </audio>
+
+
+    <!-- =========================
+         FALLING DECORATIONS
+    ========================== -->
+
+    <div
+        class="decorations-container"
+        id="decorationsContainer">
+    </div>
+
+
+    <!-- =========================
+         FLOATING BALLOONS
+    ========================== -->
+
+    <div class="balloon-container">
+
+        <div
+            class="balloon"
+            style="
+                left: 7%;
+                background: #f7378d;
+                animation-delay: 0s;
+            ">
+        </div>
+
+        <div
+            class="balloon"
+            style="
+                left: 28%;
+                background: #fc4878;
+                animation-delay: 2s;
+            ">
+        </div>
+
+        <div
+            class="balloon"
+            style="
+                left: 52%;
+                background: #dd206c;
+                animation-delay: 1.5s;
+            ">
+        </div>
+
+        <div
+            class="balloon"
+            style="
+                left: 73%;
+                background: #f6437b;
+                animation-delay: 3.5s;
+            ">
+        </div>
+
+        <div
+            class="balloon"
+            style="
+                left: 92%;
+                background: #dd2962;
+                animation-delay: 0.8s;
+            ">
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         SCREEN 1: WELCOME
+    ========================== -->
+
+    <div
+        class="card"
+        id="welcomeCard">
+
+        <div
+            style="
+                font-size: 4rem;
+                margin-bottom: 15px;
+            ">
+            🎂
+        </div>
+
+        <h1
+            style="
+                color: #722f37;
+                margin-bottom: 10px;
+            ">
+            Hhaaappiiieeesssssttttt Bbiiirrtthhhddaaayyyy!
+        </h1>
+
+        <h2
+            style="
+                color: #e24a87;
+                margin-bottom: 15px;
+            ">
+            My Tanii ✨
+        </h2>
+
+        <p>
+            My first try, hope you'll like it..
+        </p>
+
+        <div class="button-group">
+
+            <button
+                class="surprise-btn"
+                id="surpriseBtn"
+                type="button">
+                Wanna see 🎁
+            </button>
+
+            <button
+                class="no-btn"
+                id="noBtn"
+                type="button">
+                No 😜
+            </button>
+
+        </div>
+    </div>
+
+
+    <!-- =========================
+         SCREEN 1.5: CONFIRMATION
+    ========================== -->
+
+    <div
+        class="confirm-card"
+        id="confirmCard">
+
+        <div
+            style="
+                font-size: 4rem;
+                margin-bottom: 15px;
+            ">
+            🤫💝
+        </div>
+
+        <h2
+            style="
+                color: #ff4775;
+                margin-bottom: 15px;
+            ">
+            Are you ready for the real surprise?
+        </h2>
+
+        <p
+            style="
+                margin-bottom: 20px;
+                color: #100f0f;
+            ">
+            Pakka click krna haina?
+            Clear your heart for premium cuteness! 🥰
+        </p>
+
+        <div class="button-group">
+
+            <button
+                class="surprise-btn"
+                id="yesBtn"
+                type="button">
+                Yesyesyessss 💖
+            </button>
+
+            <button
+                class="no-btn"
+                id="confirmNoBtn"
+                type="button">
+                No 🥺
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         SCREEN 2: PHOTO GALLERY
+    ========================== -->
+
+    <main
+        class="gallery-screen"
+        id="surpriseScreen">
+
+        <h1 class="gallery-title">
+            Our Beautiful Memories 💖
+        </h1>
+
+        <p class="gallery-subtitle">
+            Tasveer aur unme basi kuch yaadein
+        </p>
+
+
+        <!-- =========================
+             PHOTO GRID
+        ========================== -->
+
+        <div class="photo-grid">
+
+            <div class="photo-card">
+                <img
+                    src="tanii1.jpeg"
+                    alt="Best Moment"
+                    loading="eager">
+                <div class="photo-caption">
+                    Best Moment ✨
+                </div>
+            </div>
+
+            <div class="photo-card">
+                <img
+                    src="tanii2.jpeg"
+                    alt="Partner Forever"
+                    loading="eager">
+                <div class="photo-caption">
+                    Partner Forever 🌍
+                </div>
+            </div>
+
+            <div class="photo-card">
+                <img
+                    src="tanii3.jpeg"
+                    alt="Memorable Day"
+                    loading="lazy">
+                <div class="photo-caption">
+                    Memorable Day! 🎉
+                </div>
+            </div>
+
+            <div class="photo-card">
+                <img
+                    src="tanii4.jpeg"
+                    alt="Silly Moments"
+                    loading="lazy">
+                <div class="photo-caption">
+                    Silly Moments 🤪
+                </div>
+            </div>
+
+            <div class="photo-card">
+                <img
+                    src="tanii5.jpeg"
+                    alt="That Smile"
+                    loading="lazy">
+                <div class="photo-caption">
+                    That Smile! 😊
+                </div>
+            </div>
+
+            <div class="photo-card">
+                <img
+                    src="tanii6.jpeg"
+                    alt="Always Together"
+                    loading="lazy">
+                <div class="photo-caption">
+                    Always Together 👥
+                </div>
+            </div>
+
+            <div class="photo-card">
+                <img
+                    src="tanii7.jpeg"
+                    alt="Best Vibes"
+                    loading="lazy">
+                <div class="photo-caption">
+                    Best Vibes Only 💫
+                </div>
+            </div>
+
+            <div class="photo-card">
+                <img
+                    src="tanii8.jpeg"
+                    alt="Cutest Duo"
+                    loading="lazy">
+                <div class="photo-caption">
+                    Cutest duo ever 💋
+                </div>
+            </div>
+
+            <div class="photo-card">
+                <img
+                    src="tanii9.jpeg"
+                    alt="My World"
+                    loading="lazy">
+                <div class="photo-caption">
+                    Happy Times 🌸
+                </div>
+            </div>
+
+            <div class="photo-card">
+                <img
+                    src="tanii10.jpeg"
+                    alt="Golden Days"
+                    loading="lazy">
+                <div class="photo-caption">
+                    Golden Days ☀️
+                </div>
+            </div>
+
+            <div class="photo-card">
+                <img
+                    src="tanii11.jpeg"
+                    alt="Cute Pic"
+                    loading="lazy">
+                <div class="photo-caption">
+                    Cute Pic 🧸
+                </div>
+            </div>
+
+            <div class="photo-card">
+                <img
+                    src="tanii12.jpeg"
+                    alt="Crazy Moments"
+                    loading="lazy">
+                <div class="photo-caption">
+                    Crazy Moments 🤪
+                </div>
+            </div>
+
+            <div class="photo-card">
+                <img
+                    src="tanii13.jpeg"
+                    alt="Heartwarming Day"
+                    loading="lazy">
+                <div class="photo-caption">
+                    Heartwarming Day 💕
+                </div>
+            </div>
+
+            <div class="photo-card">
+                <img
+                    src="tanii14.jpeg"
+                    alt="Pure Heart"
+                    loading="lazy">
+                <div class="photo-caption">
+                    Pure Heart ❤️
+                </div>
+            </div>
+
+            <div class="photo-card">
+                <img
+                    src="tanii15.jpeg"
+                    alt="Happy Times"
+                    loading="lazy">
+                <div class="photo-caption">
+                    The Diva 👑
+                </div>
+            </div>
+
+            <div class="photo-card">
+                <img
+                    src="tanii16.jpeg"
+                    alt="Forever and Always"
+                    loading="lazy">
+                <div class="photo-caption">
+                    Forever & Always ♾️⭐
+                </div>
+            </div>
+
+        </div>
+
+
+        <!-- =========================
+             QUOTES
+        ========================== -->
+
+        <div class="quote-box">
+            "May your day be full of laughter, love, and endless
+            happiness. No matter how old we get, our friendship
+            will always stay fresh and young!" ⭐
+        </div>
+
+        <div class="quote-box">
+
+             Tani idk kahan se start karu 😭😭 like it was one of the best day in my life jis din hum mile the aur mujhe bilkul idea nahi tha ki ye normal sa meetup dandiya ke liye hua wo itna zyada badh jayega never imagined... itne kam time me itna closeness I'm soo soo happy ki humlog mile aur hmari baat huiii and i wish ye hmesha hmesha ke liye rhe yaarr mere paas bolne ke liye zyada kuch to nahi hai but yeah love youuuuu tanishkaaa I'll be always here for u jab bhi tu chahe yaad kar skti haii okee aur ye website meri first try h maine apna best kiya h i hope you'll like it n don't mind agar thodi kami reh gyi ho hehe once again happie birthdayyyeee haahahaha mwahh love you soo muchhh!!!
+
+        </div>
+
+    </main>
+
+
+    <!-- =========================
+         JAVASCRIPT
+    ========================== -->
+
+    <script>
+
+        /* =========================
+           ELEMENT REFERENCES
+        ========================== */
+
+        const bgMusic =
+            document.getElementById('bgMusic');
+
+        const welcomeCard =
+            document.getElementById('welcomeCard');
+
+        const confirmCard =
+            document.getElementById('confirmCard');
+
+        const surpriseScreen =
+            document.getElementById('surpriseScreen');
+
+        const surpriseBtn =
+            document.getElementById('surpriseBtn');
+
+        const noBtn =
+            document.getElementById('noBtn');
+
+        const confirmNoBtn =
+            document.getElementById('confirmNoBtn');
+
+        const yesBtn =
+            document.getElementById('yesBtn');
+
+        const decorationsContainer =
+            document.getElementById(
+                'decorationsContainer'
+            );
+
+
+        /* =========================
+           MOVE "NO" BUTTON
+        ========================== */
+
+        function moveNoButton() {
+
+            const padding = 20;
+
+            const buttonWidth =
+                noBtn.offsetWidth;
+
+            const buttonHeight =
+                noBtn.offsetHeight;
+
+            const maxX =
+                Math.max(
+                    padding,
+                    window.innerWidth -
+                    buttonWidth -
+                    padding
+                );
+
+            const maxY =
+                Math.max(
+                    padding,
+                    window.innerHeight -
+                    buttonHeight -
+                    padding
+                );
+
+            const randomX =
+                Math.floor(
+                    Math.random() *
+                    (maxX - padding + 1)
+                ) + padding;
+
+            const randomY =
+                Math.floor(
+                    Math.random() *
+                    (maxY - padding + 1)
+                ) + padding;
+
+            noBtn.style.position = 'fixed';
+            noBtn.style.left = `${randomX}px`;
+            noBtn.style.top = `${randomY}px`;
+            noBtn.style.zIndex = '999999';
+        }
+
+
+        /* =========================
+           NO BUTTON EVENTS
+        ========================== */
+
+        noBtn.addEventListener(
+            'pointerenter',
+            moveNoButton
+        );
+
+        noBtn.addEventListener(
+            'pointerdown',
+            function (event) {
+                event.preventDefault();
+                moveNoButton();
+            }
+        );
+
+
+        /* =========================
+           OPEN CONFIRMATION
+        ========================== */
+
+        function openConfirmation() {
+
+            bgMusic.play().catch(function (error) {
+                console.log(
+                    'Audio playback was blocked:',
+                    error
+                );
+            });
+
+            welcomeCard.style.display = 'none';
+
+            confirmCard.style.display = 'block';
+        }
+
+
+        /* =========================
+           REVEAL GALLERY
+        ========================== */
+
+        function revealGallery() {
+
+            confirmCard.style.display = 'none';
+
+            surpriseScreen.style.display = 'block';
+
+            startFallingExplosion();
+
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+
+
+        /* =========================
+           FALLING EMOJI EXPLOSION
+        ========================== */
+
+        function startFallingExplosion() {
+
+            const items = [
+                '🧁',
+                '🎂',
+                '⭐',
+                '✨',
+                '❤️',
+                '🌸',
+                '🎈',
+                '💖',
+                '🎁',
+                '🌹'
+            ];
+
+            const itemCount =
+                window.innerWidth <= 600
+                    ? 90
+                    : 130;
+
+            for (
+                let i = 0;
+                i < itemCount;
+                i++
+            ) {
+
+                setTimeout(function () {
+
+                    const element =
+                        document.createElement('div');
+
+                    element.classList.add(
+                        'falling-item'
+                    );
+
+                    element.textContent =
+                        items[
+                            Math.floor(
+                                Math.random() *
+                                items.length
+                            )
+                        ];
+
+                    element.style.left =
+                        `${Math.random() * 100}vw`;
+
+                    element.style.fontSize =
+                        `${Math.random() * 18 + 18}px`;
+
+                    const duration =
+                        Math.random() * 2 + 2.5;
+
+                    element.style.animationDuration =
+                        `${duration}s`;
+
+                    decorationsContainer.appendChild(
+                        element
+                    );
+
+                    setTimeout(function () {
+
+                        element.remove();
+
+                    }, duration * 1000);
+
+                }, i * 50);
+            }
+        }
+
+
+        /* =========================
+           CONFIRMATION "NO"
+           MAKES YES BIGGER
+        ========================== */
+
+        let currentScale = 1;
+
+        confirmNoBtn.addEventListener(
+            'click',
+            function (event) {
+
+                event.preventDefault();
+
+                currentScale += 0.3;
+
+                /*
+                 * Prevent the button from becoming
+                 * ridiculously large.
+                 */
+
+                currentScale =
+                    Math.min(currentScale, 4);
+
+                yesBtn.style.transform =
+                    `scale(${currentScale})`;
+            }
+        );
+
+
+        /* =========================
+           BUTTON EVENT
+        ========================== */
+
+        surpriseBtn.addEventListener(
+            'click',
+            openConfirmation
+        );
+
+        yesBtn.addEventListener(
+            'click',
+            revealGallery
+        );
+
+
+        /* =========================
+           RESET NO BUTTON
+           WHEN WINDOW RESIZES
+        ========================== */
+
+        window.addEventListener(
+            'resize',
+            function () {
+
+                if (
+                    noBtn.style.position === 'fixed'
+                ) {
+                    moveNoButton();
+                }
+
+            }
+        );
+
+    </script>
+
+</body>
+</html>
